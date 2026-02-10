@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MOBA Draft Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>MOBA Draft Analyzer</h1>
+
+<div class="board">
+
+    <!-- BLUE SIDE -->
+    <div class="side blue">
+        <h2>Blue Side</h2>
+
+        <div class="section">
+            <h3>Draft Heroes</h3>
+            <div class="list" id="blueDraft"></div>
+        </div>
+
+        <div class="section">
+            <h3>Banned Heroes</h3>
+            <div class="list" id="blueBan"></div>
+        </div>
+
+        <input list="heroes" id="blueInput" placeholder="Select hero">
+        <button onclick="pickHero('blue')">Pick Hero</button>
+
+        <div class="analysis">
+            <p><strong>Advantages:</strong></p>
+            <p id="blueAdv"></p>
+
+            <p><strong>Disadvantages:</strong></p>
+            <p id="blueDis"></p>
+
+            <p><strong>Counter Picks:</strong></p>
+            <p id="blueCounter"></p>
+        </div>
+    </div>
+
+    <!-- RED SIDE -->
+    <div class="side red">
+        <h2>Red Side</h2>
+
+        <div class="section">
+            <h3>Draft Heroes</h3>
+            <div class="list" id="redDraft"></div>
+        </div>
+
+        <div class="section">
+            <h3>Banned Heroes</h3>
+            <div class="list" id="redBan"></div>
+        </div>
+
+        <input list="heroes" id="redInput" placeholder="Select hero">
+        <button onclick="pickHero('red')">Pick Hero</button>
+
+        <div class="analysis">
+            <p><strong>Advantages:</strong></p>
+            <p id="redAdv"></p>
+
+            <p><strong>Disadvantages:</strong></p>
+            <p id="redDis"></p>
+
+            <p><strong>Counter Picks:</strong></p>
+            <p id="redCounter"></p>
+        </div>
+    </div>
+
+</div>
+
+<datalist id="heroes">
+    <!-- Tank -->
+    <option value="Tigreal">
+    <option value="Akai">
+    <option value="Franco">
+    <option value="Minotaur">
+    <option value="Lolita">
+    <option value="Johnson">
+    <option value="Gatotkaca">
+    <option value="Grock">
+    <option value="Hylos">
+    <option value="Uranus">
+    <option value="Belerick">
+    <option value="Khufra">
+    <option value="Esmeralda">
+    <option value="Atlas">
+    <option value="Barats">
+    <option value="Gloo">
+    <option value="Edith">
+    <option value="Fredrinn">
+
+    <!-- Fighter -->
+    <option value="Balmond">
+    <option value="Alucard">
+    <option value="Bane">
+    <option value="Zilong">
+    <option value="Freya">
+    <option value="Chou">
+    <option value="Sun">
+    <option value="Alpha">
+    <option value="Ruby">
+    <option value="Hilda">
+    <option value="Lapu-Lapu">
+    <option value="Roger">
+    <option value="Argus">
+    <option value="Jawhead">
+    <option value="Martis">
+    <option value="Leomord">
+    <option value="Thamuz">
+    <option value="Minsitthar">
+    <option value="Badang">
+    <option value="Guinevere">
+    <option value="Terizla">
+    <option value="X.Borg">
+    <option value="Dyrroth">
+    <option value="Masha">
+    <option value="Silvanna">
+    <option value="Yu Zhong">
+    <option value="Benedetta">
+    <option value="Khaleed">
+    <option value="Paquito">
+    <option value="Phoveus">
+    <option value="Aulus">
+    <option value="Yin">
+    <option value="Julian">
+    <option value="Cici">
+    <option value="Suyou">
+    <option value="Lukas">
+
+    <!-- Assassin -->
+    <option value="Saber">
+    <option value="Karina">
+    <option value="Fanny">
+    <option value="Hayabusa">
+    <option value="Natalia">
+    <option value="Yi Sun-shin">
+    <option value="Harley">
+    <option value="Lancelot">
+    <option value="Helcurt">
+    <option value="Gusion">
+    <option value="Selena">
+    <option value="Hanzo">
+    <option value="Ling">
+    <option value="Aamon">
+    <option value="Nolan">
+    <option value="Joy">
+    <option value="Arlott">
+
+    <!-- Mage -->
+    <option value="Alice">
+    <option value="Nana">
+    <option value="Eudora">
+    <option value="Gord">
+    <option value="Kagura">
+    <option value="Cyclops">
+    <option value="Aurora">
+    <option value="Vexana">
+    <option value="Odette">
+    <option value="Zhask">
+    <option value="Pharsa">
+    <option value="Valir">
+    <option value="Chang'e">
+    <option value="Vale">
+    <option value="Lunox">
+    <option value="Harith">
+    <option value="Kadita">
+    <option value="Lylia">
+    <option value="Cecilion">
+    <option value="Luo Yi">
+    <option value="Yve">
+    <option value="Valentina">
+    <option value="Xavier">
+    <option value="Novaria">
+    <option value="Zhuxin">
+    <option value="Zetian">
+
+    <!-- Marksman -->
+    <option value="Miya">
+    <option value="Bruno">
+    <option value="Clint">
+    <option value="Layla">
+    <option value="Moskov">
+    <option value="Karrie">
+    <option value="Irithel">
+    <option value="Lesley">
+    <option value="Hanabi">
+    <option value="Claude">
+    <option value="Kimmy">
+    <option value="Granger">
+    <option value="Wanwan">
+    <option value="Popol & Kupa">
+    <option value="Brody">
+    <option value="Beatrix">
+    <option value="Natan">
+    <option value="Melissa">
+    <option value="Ixia">
+    <option value="Obsidia">
+
+    <!-- Support -->
+    <option value="Rafaela">
+    <option value="Estes">
+    <option value="Diggie">
+    <option value="Angela">
+    <option value="Faramis">
+    <option value="Carmilla">
+    <option value="Mathilda">
+    <option value="Floryn">
+    <option value="Chip">
+    <option value="Kalea">
+</datalist>
+
+<script src="script.js"></script>
+</body>
+</html>
