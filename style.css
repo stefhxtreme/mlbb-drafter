@@ -117,3 +117,37 @@ button:hover {
     font-weight: 500;
     line-height: 1.4;
 }
+
+.draft-controls {
+    margin: 12px 0 18px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.draft-controls .controls button {
+    margin-left: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+}
+
+.hero-pool {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+}
+.hero-card {
+    background: white;
+    padding: 8px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    user-select: none;
+}
+.hero-card:hover { box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+.hero-card.banned { opacity: 0.4; text-decoration: line-through; background: #fff0f0; border-color: #f2b2b2; cursor: not-allowed; }
+.hero-card.picked { box-shadow: inset 0 0 0 2px rgba(25,118,210,0.12); background: #e8f4ff; border-color: #1976d2; }
+.hero-card.picked.red { box-shadow: inset 0 0 0 2px rgba(211,47,47,0.12); background: #fff0f0; border-color: #d32f2f; }
+
+.note { font-size: 13px; color: #666; margin-top: 8px; }

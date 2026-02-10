@@ -777,27 +777,136 @@ const heroData = {
     
 };
 
-function pickHero(side) {
-    const inputId = side === "blue" ? "blueInput" : "redInput";
-    const draftId = side === "blue" ? "blueDraft" : "redDraft";
-    const advId = side === "blue" ? "blueAdv" : "redAdv";
-    const disId = side === "blue" ? "blueDis" : "redDis";
-    const counterId = side === "blue" ? "blueCounter" : "redCounter";
+// Draft state and UI-driven ban/pick flow
+const state = {
+    phase: 'ban', // 'ban' or 'pick'
+    activeTeam: 'blue',
+    bans: { blue: [], red: [] },
+    picks: { blue: [], red: [] },
+    banLimit: 3,
+    pickLimit: 5
+};
 
-    const hero = document.getElementById(inputId).value;
-    if (hero === "") return;
+function initDraft() {
+    buildHeroPool();
+    renderLists();
+    renderControls();
+}
 
-    // Add hero to draft list
-    const draftBox = document.getElementById(draftId);
-    draftBox.innerHTML += `<span class="hero-tag">${hero}</span>`;
+function buildHeroPool() {
+    const pool = document.getElementById('heroPool');
+    pool.innerHTML = '';
+    const heroes = Object.keys(heroData).sort();
+    heroes.forEach(name => {
+        const card = document.createElement('div');
+        card.className = 'hero-card';
+        card.dataset.hero = name;
+        card.innerText = name;
+        card.addEventListener('click', () => handleHeroClick(name));
+        pool.appendChild(card);
+    });
+}
 
-    // Display hero analysis
-    if (heroData[hero]) {
-        const data = heroData[hero];
-        document.getElementById(advId).innerText = data.advantages.join(" • ");
-        document.getElementById(disId).innerText = data.disadvantages.join(" • ");
-        document.getElementById(counterId).innerText = data.counterPicks.join(", ");
+function handleHeroClick(hero) {
+    const team = state.activeTeam;
+    const card = document.querySelector(`.hero-card[data-hero="${hero}"]`);
+    // Show analysis anytime a hero is clicked
+    showAnalysisFor(hero, team);
+
+    if (state.phase === 'ban') {
+        if (isBanned(hero) || isPicked(hero)) return;
+        if (state.bans[team].length >= state.banLimit) {
+            flash(`${team} has reached ban limit (${state.banLimit})`);
+            return;
+        }
+        state.bans[team].push(hero);
+        card.classList.add('banned');
+        renderLists();
+        return;
     }
 
-    document.getElementById(inputId).value = "";
+    if (state.phase === 'pick') {
+        if (isBanned(hero) || isPicked(hero)) return;
+        if (state.picks[team].length >= state.pickLimit) {
+            flash(`${team} has reached pick limit (${state.pickLimit})`);
+            return;
+        }
+        state.picks[team].push(hero);
+        card.classList.add('picked');
+        if (team === 'red') card.classList.add('red');
+        renderLists();
+        return;
+    }
 }
+
+function isBanned(hero) {
+    return state.bans.blue.includes(hero) || state.bans.red.includes(hero);
+}
+
+function isPicked(hero) {
+    return state.picks.blue.includes(hero) || state.picks.red.includes(hero);
+}
+
+function renderLists() {
+    const blueBan = document.getElementById('blueBan');
+    const redBan = document.getElementById('redBan');
+    const blueDraft = document.getElementById('blueDraft');
+    const redDraft = document.getElementById('redDraft');
+
+    blueBan.innerHTML = state.bans.blue.map(h => `<span class="hero-tag">${h}</span>`).join('');
+    redBan.innerHTML = state.bans.red.map(h => `<span class="hero-tag">${h}</span>`).join('');
+
+    blueDraft.innerHTML = state.picks.blue.map(h => `<span class="hero-tag">${h}</span>`).join('');
+    redDraft.innerHTML = state.picks.red.map(h => `<span class="hero-tag">${h}</span>`).join('');
+
+    document.getElementById('phaseDisplay').innerText = capitalize(state.phase);
+    document.getElementById('teamDisplay').innerText = capitalize(state.activeTeam);
+}
+
+function setPhase(phase) {
+    state.phase = phase;
+    renderControls();
+    renderLists();
+}
+
+function setActiveTeam(team) {
+    state.activeTeam = team;
+    renderControls();
+}
+
+function nextPhase() {
+    state.phase = state.phase === 'ban' ? 'pick' : 'ban';
+    renderControls();
+}
+
+function resetDraft() {
+    state.bans = { blue: [], red: [] };
+    state.picks = { blue: [], red: [] };
+    state.phase = 'ban';
+    state.activeTeam = 'blue';
+    buildHeroPool();
+    renderLists();
+}
+
+function renderControls() {
+    document.getElementById('phaseDisplay').innerText = capitalize(state.phase);
+    document.getElementById('teamDisplay').innerText = capitalize(state.activeTeam);
+}
+
+function showAnalysisFor(hero, team) {
+    const advId = team === 'blue' ? 'blueAdv' : 'redAdv';
+    const disId = team === 'blue' ? 'blueDis' : 'redDis';
+    const counterId = team === 'blue' ? 'blueCounter' : 'redCounter';
+    if (heroData[hero]) {
+        const d = heroData[hero];
+        document.getElementById(advId).innerText = d.advantages.join(' • ');
+        document.getElementById(disId).innerText = d.disadvantages.join(' • ');
+        document.getElementById(counterId).innerText = d.counterPicks.join(', ');
+    }
+}
+
+function flash(msg) { alert(msg); }
+
+function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+document.addEventListener('DOMContentLoaded', initDraft);

@@ -54,8 +54,7 @@
             <div class="list" id="redBan"></div>
         </div>
 
-        <input list="heroes" id="redInput" placeholder="Select hero">
-        <button onclick="pickHero('red')">Pick Hero</button>
+        <p class="note">Click heroes in the hero pool to ban or pick for this team.</p>
 
         <div class="analysis">
             <p><strong>Advantages:</strong></p>
@@ -70,6 +69,25 @@
     </div>
 
 </div>
+
+    <div class="draft-controls">
+        <div>
+            <strong>Phase:</strong> <span id="phaseDisplay">Ban</span>
+            &nbsp;|&nbsp;
+            <strong>Active Team:</strong> <span id="teamDisplay">Blue</span>
+        </div>
+        <div class="controls">
+            <button onclick="setPhase('ban')">Ban Phase</button>
+            <button onclick="setPhase('pick')">Pick Phase</button>
+            <button onclick="setActiveTeam('blue')">Blue Team</button>
+            <button onclick="setActiveTeam('red')">Red Team</button>
+            <button onclick="nextPhase()">Next Phase</button>
+            <button onclick="resetDraft()">Reset Draft</button>
+        </div>
+    </div>
+
+    <h3>Hero Pool</h3>
+    <div id="heroPool" class="hero-pool"></div>
 
 <datalist id="heroes">
     <!-- Tank -->
